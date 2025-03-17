@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <style>
+        /* General Styles */
+       
+        body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #87CEFA; /* Sky Blue Background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('bhavan1.jpg');
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-position: center; /* Centers the image */
+}
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1E90FF; /* Bright Blue */
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 1em;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1E90FF; /* Bright Blue */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        .form-group button:hover {
+            background-color: #4682B4; /* Steel Blue */
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .toggle-link a {
+            text-decoration: none;
+            color: #1E90FF;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        .role-selection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .role-selection div {
+            cursor: pointer;
+            padding: 12px;
+            background-color: #B0E0E6; /* Powder Blue */
+            border-radius: 8px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .role-selection div:hover {
+            background-color: #ADD8E6; /* Lighter Blue */
+        }
+
+        .active-role {
+            background-color: #4682B4; /* Steel Blue */
+            color: white;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1ms ease-out; /* Instant fade-out */
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 1ms ease-in; /* Instant fade-in */
+        }
+
+        select {
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Select Role</h2>
+        <!-- Role Selection: User or Admin -->
+        <div class="role-selection">
+            <div id="user-role" class="active-role" onclick="showLoginForm('user')">As a User</div>
+            <div id="admin-role" onclick="showLoginForm('admin')">As an Admin</div>
+
+            <!-- Admin Dropdown for Selecting Admin Level -->
+            <div id="admin-dropdown" class="form-group" style="display: none;">
+                <label for="adminLevel">Select Admin Level</label>
+                <select id="adminLevel" name="adminLevel">
+                    <option value="divisional_commissioner">Divisional Commissioner</option>
+                    <option value="adm_level">ADM Level</option>
+                    <option value="sdm_level">SDM Level</option>
+                </select>
+            </div>
+
+            <!-- Admin Search Options based on Admin Level -->
+            <div id="admin-level-search" class="form-group" style="display: none;">
+                <label for="adminArea">Select Area</label>
+                <select id="adminArea" name="adminArea" style="width: 100%;">
+                    <option value="central">Central</option>
+                    <option value="east">East</option>
+                    <option value="north">North</option>
+                    <option value="n-delhi">N-Delhi</option>
+                    <option value="n-east">N-East</option>
+                    <option value="n-west">N-West</option>
+                    <option value="south">South</option>
+                    <option value="s-east">S-East</option>
+                    <option value="shahdara">Shahdara</option>
+                    <option value="west">West</option>
+                </select>
+            </div>
+
+            <!-- SDM Search Options based on SDM Level -->
+            <div id="sdm-level-search" class="form-group" style="display: none;">
+                <label for="sdmArea">Select Area</label>
+                <select id="sdmArea" name="sdmArea" style="width: 100%;">
+                    <option value="alipur">Alipur</option>
+                    <option value="chankyapuri">Chankyapuri</option>
+                    <option value="delhicantt">Delhi Cantt</option>
+                    <option value="gandhinagar">Gandhi Nagar</option>
+                    <option value="karobagh">Karol Bagh</option>
+                    <option value="mayurvihar">Mayur Vihar</option>
+                    <option value="sarasvatvihar">Saraswati Vihar</option>
+                    <option value="rohininagar">Rohini Nagar</option>
+                    <option value="vasantvihar">Vasant Vihar</option>
+                    <option value="yamuna">Yamuna</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="login-form active">
+            <h2>Login</h2>
+            <form onsubmit="handleLogin(); return false;">
+                <!-- Dynamic Fields Based on Role -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+            <div class="toggle-link">
+                <p>Don't have an account? <a href="#">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function showLoginForm(role) {
+            if (role === 'admin') {
+                document.getElementById('user-role').style.display = 'none';
+            } else {
+                document.getElementById('admin-role').style.display = 'none';
+            }
+
+            const container = document.querySelector('.container');
+            container.classList.remove('fade-in');
+            container.classList.add('fade-out');
+
+            document.querySelector('.role-selection').style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                document.getElementById('user-role').classList.remove('active-role');
+                document.getElementById('admin-role').classList.remove('active-role');
+
+                document.getElementById(role + '-role').classList.add('active-role');
+
+                const formTitle = role === 'user' ? 'User Login' : 'Admin Login';
+                document.querySelector('h2').innerText = formTitle;
+
+                document.getElementById('login-form').classList.add('active');
+
+                if (role === 'admin') {
+                    document.getElementById('admin-dropdown').style.display = 'block';
+                } else {
+                    document.getElementById('admin-dropdown').style.display = 'none';
+                }
+
+                container.classList.remove('fade-out');
+                container.classList.add('fade-in');
+
+                document.querySelector('.role-selection').style.pointerEvents = 'auto';
+
+                if (document.getElementById('adminArea').style.display !== 'none') {
+                    $('#adminArea').select2();
+                }
+                if (document.getElementById('sdmArea').style.display !== 'none') {
+                    $('#sdmArea').select2();
+                }
+            }, 1);
+        }
+
+        document.getElementById('adminLevel').addEventListener('change', function() {
+            const selectedValue = this.value;
+            if (selectedValue === 'adm_level') {
+                document.getElementById('admin-level-search').style.display = 'block';
+                document.getElementById('sdm-level-search').style.display = 'none';
+            } else if (selectedValue === 'sdm_level') {
+                document.getElementById('admin-level-search').style.display = 'none';
+                document.getElementById('sdm-level-search').style.display = 'block';
+            } else {
+                document.getElementById('admin-level-search').style.display = 'none';
+                document.getElementById('sdm-level-search').style.display = 'none';
+            }
+        });
+
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email && password) {
+                alert("Login successful as " + (document.getElementById('user-role').classList.contains('active-role') ? "User" : "Admin"));
+            } else {
+               
+                alert("Please enter both email and password.");
+            }
+             window.location.href ="http://localhost:5177/"
+        }
+    </script>
+
+</body>
+</html>
